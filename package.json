@@ -12,7 +12,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "./node_modules/.bin/jest",
+    "test": "./node_modules/.bin/eslint src && react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "./node_modules/.bin/eslint src",
     "lint-fix": "./node_modules/.bin/eslint src --fix"
@@ -53,6 +53,7 @@
     "react-addons-test-utils": "^0.14.7"
   },
   "dependencies": {
+    "prop-types": "^15.5.8",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-scripts": "^0.9.5"

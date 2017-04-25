@@ -1,118 +1,106 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from '../App';
+/* global
+  it
+  describe
+  expect
+  beforeEach
+ */
 
-import {mount, shallow} from 'enzyme';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from '../App'
 
-"use strict";
+import {mount} from 'enzyme'
 
-describe('integration test',() => {
-    it('renders without crashing', () => {
-        const div = document.createElement('div');
-        ReactDOM.render(<App />, div);
-    });
+describe('integration test', () => {
+  it('renders without crashing', () => {
+    const div = document.createElement('div')
+    ReactDOM.render(<App />, div)
+  })
 
-    describe('when filtering products', () => {
-        let app
+  describe('when filtering products', () => {
+    let app
 
-        beforeEach(() => {
-            app = mount(<App />)
-        })
+    beforeEach(() => {
+      app = mount(<App />)
+    })
 
-        it('renders the correct number of table rows without filters', () => {
+    it('renders the correct number of table rows without filters', () => {
+      expect(app.find('tr').length).toBe(9)
+    })
 
-            expect(app.find('tr').length).toBe(9)
+    it('will filter out of stock items when inStock checked', () => {
+      const event = {target: {checked: true}}
 
-        })
+      expect(app.find('tr').length).toBe(9)
 
-        it('will filter out of stock items when inStock checked', () => {
+      app.find('#filter-checkbox').simulate('change', event)
 
-            const event = {target: {checked: true}}
+      expect(app.find('tr').length).toBe(7)
+    })
 
-            expect(app.find('tr').length).toBe(9)
+    it('correctly re-renders the DOM when the filter text box is typed in', () => {
+      const event = {target: {value: 'k'}}
 
-            app.find('#filter-checkbox').simulate('change', event)
+      let originalRows = app.find('tr').length
 
-            expect(app.find('tr').length).toBe(7)
+      expect(originalRows).toBe(9)
 
-        })
+      app.find('#filter-text').simulate('change', event)
+      let newRows = app.find('tr').length
 
-        it('correctly re-renders the DOM when the filter text box is typed in', () => {
+      expect(newRows).not.toEqual(originalRows)
+    })
 
-            const event = {target: {value: 'k'}}
+    it('renders the correct number of rows when both filters are active', () => {
+      const checkEvent = {target: {checked: true}}
+      const textEvent = {target: {value: 'ball'}}
 
-            let originalRows = app.find('tr').length
+      app.find('#filter-text').simulate('change', textEvent)
+      app.find('#filter-checkbox').simulate('change', checkEvent)
 
-            expect(originalRows).toBe(9)
+      expect(app.find('tr').length).toBe(5)
+    })
+  })
 
-            app.find('#filter-text').simulate('change', event)
-            let newRows = app.find('tr').length
+  describe('checking product items', () => {
+    let app
 
-            expect(newRows).not.toEqual(originalRows)
+    beforeEach(() => {
+      app = mount(<App />)
+    })
 
-        })
+    it('renders zero when nothing is checked', () => {
+      expect(app.find('#priceTotal').text()).toBe('$0')
+    })
 
-        it('renders the correct number of rows when both filters are active', () => {
+    it('renders correctly when basketball is clicked once', () => {
+      let event = {target: {checked: true}}
+      app.find('#checkbox2').simulate('change', event)
+      expect(app.find('#priceTotal').text()).toBe('$29.99')
+    })
 
-            const checkEvent = {target: {checked: true}}
-            const textEvent = {target: {value: 'ball'}}
+    it('renders correcly when basketball is clicked twice', () => {
+      let checkOn = {target: {checked: true}}
+      let checkOff = {target: {checked: false}}
 
-            app.find('#filter-text').simulate('change', textEvent)
-            app.find('#filter-checkbox').simulate('change', checkEvent)
+      const basketballCheck = app.find('#checkbox2')
 
-            expect(app.find('tr').length).toBe(5)
+      basketballCheck.simulate('change', checkOn)
+      basketballCheck.simulate('change', checkOff)
 
-        })
-    });
+      expect(app.find('#priceTotal').text()).toBe('$0')
+    })
 
-    describe('checking product items', () => {
+    it('adds values together properly', () => {
+      let checkEvent = {target: {checked: true}}
 
-        let app
+      app.find('#checkbox1').simulate('change', checkEvent)
+      app.find('#checkbox2').simulate('change', checkEvent)
+      app.find('#checkbox4').simulate('change', checkEvent)
+      app.find('#checkbox5').simulate('change', checkEvent)
 
-        beforeEach(() => {
-            app = mount(<App />)
-        })
-
-        it('renders zero when nothing is checked', () => {
-
-            expect(app.find('#priceTotal').text()).toBe('$0')
-
-        })
-
-        it('renders correctly when basketball is clicked once', () => {
-
-            let event = {target: {checked: true}}
-            app.find('#checkbox2').simulate('change', event)
-            expect(app.find('#priceTotal').text()).toBe('$29.99')
-
-        })
-
-        it('renders correcly when basketball is clicked twice', () => {
-
-            let checkOn = {target: {checked: true}}
-            let checkOff = {target: {checked: false}}
-
-            const basketballCheck = app.find('#checkbox2')
-
-            basketballCheck.simulate('change', checkOn)
-            basketballCheck.simulate('change', checkOff)
-
-            expect(app.find('#priceTotal').text()).toBe('$0')
-
-        })
-
-        it('adds values together properly', () => {
-
-            let checkEvent = {target: {checked: true}}
-
-            app.find('#checkbox1').simulate('change', checkEvent)
-            app.find('#checkbox2').simulate('change', checkEvent)
-            app.find('#checkbox4').simulate('change', checkEvent)
-            app.find('#checkbox5').simulate('change', checkEvent)
-
-            expect(app.find('#priceTotal').text()).toBe('$639.96')
-
-        })
+      expect(app.find('#priceTotal').text()).toBe('$639.96')
+    })
 
         // it('subtracts price when the product is no longer showing', () => {
         //
@@ -127,7 +115,5 @@ describe('integration test',() => {
         //     expect(app.find('#priceTotal').text()).toBe('$0')
         //
         // })
-
-    })
-
+  })
 })
