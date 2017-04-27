@@ -53,6 +53,7 @@ describe('ProductData', () => {
 
   it('renders the correct price', () => {
     const price = wrapper.node.props.children[1]
+    console.log(wrapper.node.props.children)
     expect(price.props.children).toEqual(121)
   })
 })

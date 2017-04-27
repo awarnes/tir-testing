@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { Table } from 'react-bootstrap'
 
 import ProductLine from './ProductLine.js'
 import ProductData from './ProductData.js'
@@ -50,9 +51,10 @@ export default class TableHead extends Component {
 
     return (
       <section>
-        <table>
+        <Table striped bordered condensed hover responsive>
           <thead>
             <tr>
+              <th />
               <th>Name</th>
               <th>Price</th>
             </tr>
@@ -60,7 +62,7 @@ export default class TableHead extends Component {
 
           <tbody>{rows}</tbody>
 
-        </table>
+        </Table>
       </section>
     )
   }

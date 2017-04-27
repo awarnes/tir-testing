@@ -29,7 +29,7 @@ describe('TableHead', () => {
       filterText='ball'
       inStockOnly={false}
       onBuyInput={callback}
-      isBuying={false}
+      // isBuying={false}
       products={PRODUCTS}
             />)
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
+import { Grid, Jumbotron, Row, Col, Panel, Well, PageHeader } from 'react-bootstrap'
 
 import SearchBar from './SearchBar'
 import TableHead from './TableHead'
@@ -59,27 +60,40 @@ class App extends Component {
 
   render () {
     return (
-      <main>
-        <SearchBar
-          filterText={this.state.filterText}
-          inStockOnly={this.state.inStockOnly}
-          onFilterTextInput={this.handleFilterTextInput}
-          onInStockInput={this.handleInStockInput}
+      <Grid>
+        <Row>
+          <Col xs={12}>
+            <Jumbotron bsStyle='success'>
+              <PageHeader>
+                Buys our stuffs 'n' things!
+              </PageHeader>
+              <Panel bsStyle='info'>
+                <SearchBar
+                  filterText={this.state.filterText}
+                  inStockOnly={this.state.inStockOnly}
+                  onFilterTextInput={this.handleFilterTextInput}
+                  onInStockInput={this.handleInStockInput}
+            />
+
+                <TableHead
+                  products={PRODUCTS}
+                  filterText={this.state.filterText}
+                  inStockOnly={this.state.inStockOnly}
+                  onBuyInput={this.onBuyInput}
+                  isBuying={this.state.isBuying}
           />
 
-        <TableHead
-          products={PRODUCTS}
-          filterText={this.state.filterText}
-          inStockOnly={this.state.inStockOnly}
-          onBuyInput={this.onBuyInput}
-          isBuying={this.state.isBuying}
-          />
-
-        <TotalCount
-          products={PRODUCTS}
-          total={this.state.total}
+                <Well>
+                  <TotalCount
+                    products={PRODUCTS}
+                    total={this.state.total}
               />
-      </main>
+                </Well>
+              </Panel>
+            </Jumbotron>
+          </Col>
+        </Row>
+      </Grid>
     )
   }
 }

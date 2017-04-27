@@ -26,13 +26,15 @@ export default class ProductData extends Component {
     let amIChecked = this.props.isBuying[this.props.product.name] || false
     return (
       <tr>
-        <td>
+        <td width='7px'>
           <input
             type='checkbox'
             checked={amIChecked}
             id={'checkbox' + this.props.checkboxId}
             onChange={this.handleOnBuyChange}
                         />
+        </td>
+        <td>
           {name}
         </td>
         <td>{this.props.product.price}</td>
