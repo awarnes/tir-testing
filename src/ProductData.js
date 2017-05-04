@@ -1,16 +1,19 @@
 import React, { Component, PropTypes } from 'react'
 
+import { Button } from 'react-bootstrap'
+
 export default class ProductData extends Component {
   constructor (props) {
-    super(props)
+      super(props)
 
-    this.handleOnBuyChange = this.handleOnBuyChange.bind(this)
+      this.handleOnBuyChange = this.handleOnBuyChange.bind(this)
   }
 
   handleOnBuyChange (e) {
-    let value = e.target.checked
+    let value = !this.props.isBuying[this.props.product.name]
     let key = this.props.product.name
     let price = this.props.product.price
+    e.target.parentElement.style = {background: 'aliceblue'}
     this.props.onBuyInput(key, value, price)
   }
 
@@ -23,16 +26,15 @@ export default class ProductData extends Component {
               {this.props.product.name}
             </span>
 
-    let amIChecked = this.props.isBuying[this.props.product.name] || false
+    let amIBuying = this.props.isBuying[this.props.product.name] || false
     return (
-      <tr>
+      <tr style={{background: this.props.bgColor}}>
         <td width='7px'>
-          <input
-            type='checkbox'
-            checked={amIChecked}
+          <Button
+            data-buying={amIBuying}
             id={'checkbox' + this.props.checkboxId}
-            onChange={this.handleOnBuyChange}
-                        />
+            onClick={this.handleOnBuyChange}
+          >Buy Me!</Button>
         </td>
         <td>
           {name}
@@ -47,5 +49,6 @@ ProductData.propTypes = {
   product: PropTypes.object,
   onBuyInput: PropTypes.func,
   isBuying: PropTypes.object,
-  checkboxId: PropTypes.number
+  checkboxId: PropTypes.number,
+  bgColor: PropTypes.string
 }

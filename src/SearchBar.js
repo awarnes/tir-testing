@@ -33,7 +33,7 @@ export default class SearchBar extends Component {
           id='filter-checkbox'
           checked={this.props.inStockOnly}
           onChange={this.handleInStockInputChange}
-          label="Only show products in stock."
+          label='Only show products in stock.'
         />
         <br /><br />
       </form>

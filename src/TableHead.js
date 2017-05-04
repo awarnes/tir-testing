@@ -4,6 +4,8 @@ import { Table } from 'react-bootstrap'
 import ProductLine from './ProductLine.js'
 import ProductData from './ProductData.js'
 
+let bgColor
+
 export default class TableHead extends Component {
   render () {
     let rows = []
@@ -26,7 +28,14 @@ export default class TableHead extends Component {
 
       if (product.name.indexOf(filterText) !== -1) {
         if (inStockOnly && product.stocked) {
+          console.log(isBuying[product.name])
+          if (isBuying[product.name]) {
+            bgColor = '#ff69b4'
+          } else {
+            bgColor = ''
+          }
           rows.push(<ProductData
+            bgColor={bgColor}
             product={product}
             key={product.name + product.category}
             onBuyInput={onBuyInput}
@@ -37,7 +46,14 @@ export default class TableHead extends Component {
         } else if (inStockOnly && !product.stocked) {
 
         } else {
+          console.log(isBuying[product.name])
+          if (isBuying[product.name]) {
+            bgColor = '#ff69b4'
+          } else {
+            bgColor = ''
+          }
           rows.push(<ProductData
+            bgColor={bgColor}
             product={product}
             key={product.name + product.category}
             onBuyInput={onBuyInput}
