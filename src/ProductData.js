@@ -4,9 +4,9 @@ import { Button } from 'react-bootstrap'
 
 export default class ProductData extends Component {
   constructor (props) {
-      super(props)
+    super(props)
 
-      this.handleOnBuyChange = this.handleOnBuyChange.bind(this)
+    this.handleOnBuyChange = this.handleOnBuyChange.bind(this)
   }
 
   handleOnBuyChange (e) {
