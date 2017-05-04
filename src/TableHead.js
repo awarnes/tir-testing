@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Table } from 'react-bootstrap'
 
 import ProductLine from './ProductLine.js'
@@ -28,7 +29,6 @@ export default class TableHead extends Component {
 
       if (product.name.indexOf(filterText) !== -1) {
         if (inStockOnly && product.stocked) {
-          console.log(isBuying[product.name])
           if (isBuying[product.name]) {
             bgColor = '#ff69b4'
           } else {
@@ -46,7 +46,6 @@ export default class TableHead extends Component {
         } else if (inStockOnly && !product.stocked) {
 
         } else {
-          console.log(isBuying[product.name])
           if (isBuying[product.name]) {
             bgColor = '#ff69b4'
           } else {

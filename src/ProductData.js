@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 import { Button } from 'react-bootstrap'
 
@@ -13,7 +14,6 @@ export default class ProductData extends Component {
     let value = !this.props.isBuying[this.props.product.name]
     let key = this.props.product.name
     let price = this.props.product.price
-    e.target.parentElement.style = {background: 'aliceblue'}
     this.props.onBuyInput(key, value, price)
   }
 
@@ -39,7 +39,7 @@ export default class ProductData extends Component {
         <td>
           {name}
         </td>
-        <td>{this.props.product.price}</td>
+        <td id="productPrice">{this.props.product.price}</td>
       </tr>
     )
   }

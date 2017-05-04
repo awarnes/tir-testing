@@ -20,7 +20,7 @@ const PRODUCTS = [
 ]
 
 describe('TableHead', () => {
-  let callback, wrapper//, thInstance
+  let callback, wrapper
 
   beforeEach(() => {
     callback = jest.fn()
@@ -29,11 +29,10 @@ describe('TableHead', () => {
       filterText='ball'
       inStockOnly={false}
       onBuyInput={callback}
-      // isBuying={false}
+      isBuying={{'Football': false}}
       products={PRODUCTS}
             />)
 
-    // thInstance = wrapper.instance()
   })
 
   it('pass', () => {

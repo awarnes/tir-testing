@@ -18,6 +18,7 @@ describe('ProductData', () => {
     callback = jest.fn()
     wrapper = shallow(
       <ProductData
+        bgColor="aliceblue"
         price={121}
         product={{category: 'electronics', stocked: false, name: 'apple', price: 121}}
         onBuyInput={callback}
@@ -26,9 +27,9 @@ describe('ProductData', () => {
         )
   })
 
-  it('checkbox receives the correct information', () => {
-    const inputObject = wrapper.find('input')
-    inputObject.simulate('change', {target: {checked: true}})
+  it('button receives the correct information', () => {
+    const inputObject = wrapper.find('Button')
+    inputObject.simulate('click', {})
 
     expect(callback.mock.calls).toEqual([['apple', true, 121]])
   })
@@ -52,8 +53,7 @@ describe('ProductData', () => {
   })
 
   it('renders the correct price', () => {
-    const price = wrapper.node.props.children[1]
-    console.log(wrapper.node.props.children)
-    expect(price.props.children).toEqual(121)
+    const price = wrapper.find('#productPrice').text()
+    expect(price).toEqual("121")
   })
 })

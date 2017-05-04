@@ -74,8 +74,7 @@ describe('integration test', () => {
     })
 
     it('renders correctly when basketball is clicked once', () => {
-      let event = {target: {checked: true}}
-      app.find('#checkbox2').simulate('change', event)
+      app.find('#checkbox2').simulate('click', {})
       expect(app.find('#priceTotal').text()).toBe('$29.99')
     })
 
@@ -92,12 +91,12 @@ describe('integration test', () => {
     })
 
     it('adds values together properly', () => {
-      let checkEvent = {target: {checked: true}}
+      let checkEvent = {}
 
-      app.find('#checkbox1').simulate('change', checkEvent)
-      app.find('#checkbox2').simulate('change', checkEvent)
-      app.find('#checkbox4').simulate('change', checkEvent)
-      app.find('#checkbox5').simulate('change', checkEvent)
+      app.find('#checkbox1').simulate('click', checkEvent)
+      app.find('#checkbox2').simulate('click', checkEvent)
+      app.find('#checkbox4').simulate('click', checkEvent)
+      app.find('#checkbox5').simulate('click', checkEvent)
 
       expect(app.find('#priceTotal').text()).toBe('$639.96')
     })
