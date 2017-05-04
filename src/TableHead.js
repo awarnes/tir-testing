@@ -1,79 +1,92 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Table } from 'react-bootstrap'
 
 import ProductLine from './ProductLine.js'
 import ProductData from './ProductData.js'
 
+let bgColor
+
 export default class TableHead extends Component {
+  render () {
+    let rows = []
+    let lastCategory = null
+    let filterText = this.props.filterText
+    let inStockOnly = this.props.inStockOnly
+    let onBuyInput = this.props.onBuyInput
+    let isBuying = this.props.isBuying
 
-    // static propTypes = {
-    //     filterText: React.PropTypes.string,
-    //     inStockOnly: React.PropTypes.bool,
-    //     onBuyInput: React.PropTypes.func,
-    //     isBuying: React.PropTypes.object,
-    // };
+    let keyIterator = 0
+    let checkboxIdIterator = 0
 
-    render() {
+    this.props.products.forEach(function (product) {
+      if (product.category !== lastCategory) {
+        rows.push(<ProductLine category={product.category} key={product.category + keyIterator} />)
+        keyIterator++
+      }
 
-        let rows = [];
-        let lastCategory = null;
-        let filterText = this.props.filterText;
-        let inStockOnly = this.props.inStockOnly;
-        let onBuyInput = this.props.onBuyInput;
-        let isBuying = this.props.isBuying;
+      lastCategory = product.category
 
-        let keyIterator = 0
-        let checkboxIdIterator = 0
+      if (product.name.indexOf(filterText) !== -1) {
+        if (inStockOnly && product.stocked) {
+          if (isBuying[product.name]) {
+            bgColor = '#ff69b4'
+          } else {
+            bgColor = ''
+          }
+          rows.push(<ProductData
+            bgColor={bgColor}
+            product={product}
+            key={product.name + product.category}
+            onBuyInput={onBuyInput}
+            isBuying={isBuying}
+            checkboxId={checkboxIdIterator}
+                                />)
+          checkboxIdIterator++
+        } else if (inStockOnly && !product.stocked) {
 
-        this.props.products.forEach(function(product){
+        } else {
+          if (isBuying[product.name]) {
+            bgColor = '#ff69b4'
+          } else {
+            bgColor = ''
+          }
+          rows.push(<ProductData
+            bgColor={bgColor}
+            product={product}
+            key={product.name + product.category}
+            onBuyInput={onBuyInput}
+            isBuying={isBuying}
+            checkboxId={checkboxIdIterator}
+                                />)
+          checkboxIdIterator++
+        }
+      }
+    })
 
-            if (product.category !== lastCategory){
-                rows.push(<ProductLine category={product.category} key={product.category+keyIterator} />);
-                keyIterator++
-            }
+    return (
+      <section>
+        <Table striped bordered condensed hover responsive>
+          <thead>
+            <tr>
+              <th />
+              <th>Name</th>
+              <th>Price</th>
+            </tr>
+          </thead>
 
-            lastCategory = product.category;
+          <tbody>{rows}</tbody>
 
-            if (product.name.indexOf(filterText) !== -1) {
-                if (inStockOnly && product.stocked) {
-                    rows.push(<ProductData
-                                product={product}
-                                key={product.name+product.category}
-                                onBuyInput={onBuyInput}
-                                isBuying={isBuying}
-                                checkboxId={checkboxIdIterator}
-                                />);
-                    checkboxIdIterator++
-                } else if (inStockOnly && !product.stocked) {
-                    return
-                } else {
-                    rows.push(<ProductData
-                                    product={product}
-                                    key={product.name+product.category}
-                                    onBuyInput={onBuyInput}
-                                    isBuying={isBuying}
-                                    checkboxId={checkboxIdIterator}
-                                />);
-                    checkboxIdIterator++
-                }
-            }
-        });
+        </Table>
+      </section>
+    )
+  }
+}
 
-        return (
-            <section>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Price</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>{rows}</tbody>
-
-                </table>
-            </section>
-        )
-
-    }
-
+TableHead.propTypes = {
+  filterText: PropTypes.string,
+  inStockOnly: PropTypes.bool,
+  onBuyInput: PropTypes.func,
+  isBuying: PropTypes.object,
+  products: PropTypes.array
 }

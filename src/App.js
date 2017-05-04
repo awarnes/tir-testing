@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
+import { Grid, Jumbotron, Row, Col, Panel, Well, PageHeader } from 'react-bootstrap'
 
 import SearchBar from './SearchBar'
 import TableHead from './TableHead'
@@ -12,74 +13,89 @@ const PRODUCTS = [
   {category: 'Electronics', price: 99.99, stocked: true, name: 'iPod Touch'},
   {category: 'Electronics', price: 399.99, stocked: false, name: 'iPhone 5'},
   {category: 'Electronics', price: 199.99, stocked: true, name: 'Nexus 7'}
-];
-
+]
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            filterText: '',
-            inStockOnly: false,
-            isBuying: {},
-            total: 0,
-        };
-
+  constructor (props) {
+    super(props)
+    this.state = {
+      filterText: '',
+      inStockOnly: false,
+      isBuying: {},
+      total: 0
     }
 
-    handleFilterTextInput(filterText){
-        this.setState({
-            filterText: filterText
-        });
+    this.handleFilterTextInput = this.handleFilterTextInput.bind(this)
+    this.handleInStockInput = this.handleInStockInput.bind(this)
+    this.onBuyInput = this.onBuyInput.bind(this)
+  }
+
+  handleFilterTextInput (filterText) {
+    this.setState({
+      filterText: filterText
+    })
+  }
+
+  handleInStockInput (inStockOnly) {
+    this.setState({
+      inStockOnly: inStockOnly
+    })
+  }
+
+  onBuyInput (key, value, price) {
+    let newIsBuying = Object.assign(this.state.isBuying, {[key]: value})
+    let newTotal
+
+    if (value) {
+      newTotal = this.state.total + price
+    } else {
+      newTotal = this.state.total - price
     }
 
-    handleInStockInput(inStockOnly) {
-        this.setState({
-            inStockOnly: inStockOnly
-        })
-    }
+    this.setState({
+      total: newTotal,
+      isBuying: newIsBuying
+    })
+  }
 
-    onBuyInput(key, value, price) {
-        let newIsBuying = Object.assign(this.state.isBuying, {[key]: value})
-        let newTotal;
-
-        if (value){
-            newTotal = this.state.total + price;
-        } else {
-            newTotal = this.state.total - price;
-        }
-
-        this.setState({
-            total: newTotal,
-            isBuying: newIsBuying,
-        })
-    }
-
-    render() {
+  render () {
     return (
-      <main>
-          <SearchBar
-              filterText={this.state.filterText}
-              inStockOnly={this.state.inStockOnly}
-              onFilterTextInput={this.handleFilterTextInput.bind(this)}
-              onInStockInput={this.handleInStockInput.bind(this)}
+      <Grid>
+        <Row>
+          <Col xs={12}>
+            <Jumbotron bsStyle='success'>
+              <PageHeader>
+                Buys our stuffs 'n' things!
+              </PageHeader>
+              <Panel bsStyle='info'>
+                <SearchBar
+                  filterText={this.state.filterText}
+                  inStockOnly={this.state.inStockOnly}
+                  onFilterTextInput={this.handleFilterTextInput}
+                  onInStockInput={this.handleInStockInput}
+            />
+
+                <TableHead
+                  products={PRODUCTS}
+                  filterText={this.state.filterText}
+                  inStockOnly={this.state.inStockOnly}
+                  onBuyInput={this.onBuyInput}
+                  isBuying={this.state.isBuying}
           />
 
-          <TableHead
-              products={PRODUCTS}
-              filterText={this.state.filterText}
-              inStockOnly={this.state.inStockOnly}
-              onBuyInput={this.onBuyInput.bind(this)}
-              isBuying={this.state.isBuying}
-          />
-
-          <TotalCount
-              products={PRODUCTS}
-              total={this.state.total}
+                <Well>
+                  <TotalCount
+                    products={PRODUCTS}
+                    total={this.state.total}
               />
-      </main>
-    );
+                </Well>
+              </Panel>
+            </Jumbotron>
+          </Col>
+        </Row>
+      </Grid>
+    )
   }
 }
 
-export default App;
+export default App
