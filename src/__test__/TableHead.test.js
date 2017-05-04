@@ -1,7 +1,6 @@
 /* global
   it
   beforeEach
-  jest
   describe
   expect
  */
@@ -20,21 +19,29 @@ const PRODUCTS = [
 ]
 
 describe('TableHead', () => {
-  let callback, wrapper
+  let wrapper
 
   beforeEach(() => {
-    callback = jest.fn()
+    // callback = jest.fn()
 
     wrapper = shallow(<TableHead
+      products={PRODUCTS}
       filterText='ball'
       inStockOnly={false}
-      onBuyInput={callback}
-      isBuying={{'Football': false}}
-      products={PRODUCTS}
-            />)
+        // onBuyInput={this.onBuyInput}
+      isBuying={{Football: true}}
+          />)
   })
 
   it('pass', () => {
     expect(wrapper.unrendered.props.inStockOnly).toEqual(false)
+  })
+
+  it('pass', () => {
+    expect(wrapper.unrendered.props.isBuying['Football']).toEqual(true)
+  })
+
+  it('pass', () => {
+    expect(wrapper.unrendered.props.filterText).toEqual('ball')
   })
 })
