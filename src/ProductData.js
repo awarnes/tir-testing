@@ -39,7 +39,7 @@ export default class ProductData extends Component {
         <td>
           {name}
         </td>
-        <td id="productPrice">{this.props.product.price}</td>
+        <td id='productPrice'>{this.props.product.price}</td>
       </tr>
     )
   }

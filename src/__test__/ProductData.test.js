@@ -18,7 +18,7 @@ describe('ProductData', () => {
     callback = jest.fn()
     wrapper = shallow(
       <ProductData
-        bgColor="aliceblue"
+        bgColor='aliceblue'
         price={121}
         product={{category: 'electronics', stocked: false, name: 'apple', price: 121}}
         onBuyInput={callback}
@@ -54,6 +54,6 @@ describe('ProductData', () => {
 
   it('renders the correct price', () => {
     const price = wrapper.find('#productPrice').text()
-    expect(price).toEqual("121")
+    expect(price).toEqual('121')
   })
 })

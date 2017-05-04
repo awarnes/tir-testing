@@ -32,7 +32,6 @@ describe('TableHead', () => {
       isBuying={{'Football': false}}
       products={PRODUCTS}
             />)
-
   })
 
   it('pass', () => {
