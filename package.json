@@ -29,10 +29,15 @@
     "test": "./node_modules/.bin/eslint src && react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "./node_modules/.bin/eslint src",
-    "lint-fix": "./node_modules/.bin/eslint src --fix"
+    "lint-fix": "./node_modules/.bin/eslint src --fix",
+    "cov": "./node_modules/.bin/react-scripts test --coverage"
   },
   "jest": {
     "coverageDirectory": "./coverage/",
-    "collectCoverage": true
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!src/SearchBar/"
+      ]
   }
 }

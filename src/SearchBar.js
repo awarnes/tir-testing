@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { FormControl } from 'react-bootstrap'
-// import {Checkbox} from '@shopify/polaris'
+import { FormControl, Checkbox } from 'react-bootstrap'
+
 export default class SearchBar extends Component {
   constructor (props) {
     super(props)
@@ -28,15 +28,13 @@ export default class SearchBar extends Component {
           id='filter-text'
           onChange={this.handleFilterTextInputChange}
           />
-        <br />
-        <input
+        <Checkbox
           type='checkbox'
           id='filter-checkbox'
           checked={this.props.inStockOnly}
           onChange={this.handleInStockInputChange}
-          label='Only show products in stock.'
-        />
-        <br /><br />
+        >Only show products in stock.</Checkbox>
+        <br />
       </form>
     )
   }
