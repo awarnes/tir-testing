@@ -100,19 +100,5 @@ describe('integration test', () => {
 
       expect(app.find('#priceTotal').text()).toBe('$639.96')
     })
-
-        // it('subtracts price when the product is no longer showing', () => {
-        //
-        //     let checkEvent = {target: {checked: true}}
-        //
-        //     app.find('#checkbox2').simulate('change', checkEvent)
-        //
-        //     expect(app.find('#priceTotal').text()).toBe('$29.99')
-        //
-        //     app.find('#filter-checkbox').simulate('change', checkEvent)
-        //
-        //     expect(app.find('#priceTotal').text()).toBe('$0')
-        //
-        // })
   })
 })

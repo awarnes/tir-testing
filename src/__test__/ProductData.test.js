@@ -9,7 +9,6 @@
 import React from 'react'
 import ProductData from '../ProductData'
 import {shallow} from 'enzyme'
-// import {renderer} from 'react-test-renderer' for snapshot testing renderer.create
 
 describe('ProductData', () => {
   let wrapper, callback

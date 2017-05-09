@@ -22,13 +22,10 @@ describe('TableHead', () => {
   let wrapper
 
   beforeEach(() => {
-    // callback = jest.fn()
-
     wrapper = shallow(<TableHead
       products={PRODUCTS}
       filterText='ball'
       inStockOnly={false}
-        // onBuyInput={this.onBuyInput}
       isBuying={{Football: true}}
           />)
   })
