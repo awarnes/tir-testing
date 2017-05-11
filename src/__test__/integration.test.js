@@ -8,8 +8,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from '../App'
+import fetch from 'jest-fetch-mock'
+import { PRODUCTS } from '../test-data'
+import { mount } from 'enzyme'
 
-import {mount} from 'enzyme'
+global.fetch = fetch
+
+fetch.mockResponse(JSON.stringify(PRODUCTS))
 
 describe('integration test', () => {
   it('renders without crashing', () => {
@@ -20,8 +25,12 @@ describe('integration test', () => {
   describe('when filtering products', () => {
     let app
 
-    beforeEach(() => {
+    beforeEach((done) => {
       app = mount(<App />)
+
+      setTimeout(() => {
+        done()
+      }, 5)
     })
 
     it('renders the correct number of table rows without filters', () => {
@@ -65,8 +74,12 @@ describe('integration test', () => {
   describe('checking product items', () => {
     let app
 
-    beforeEach(() => {
+    beforeEach((done) => {
       app = mount(<App />)
+
+      setTimeout(() => {
+        done()
+      }, 5)
     })
 
     it('renders zero when nothing is checked', () => {

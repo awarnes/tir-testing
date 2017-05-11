@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react'
 import './App.css'
 import { Grid, Jumbotron, Row, Col, Panel, Well, PageHeader } from 'react-bootstrap'
@@ -6,14 +7,9 @@ import SearchBar from './SearchBar'
 import TableHead from './TableHead'
 import TotalCount from './TotalCount'
 
-const PRODUCTS = [
-  {category: 'Sporting Goods', price: 49.99, stocked: true, name: 'Football'},
-  {category: 'Sporting Goods', price: 9.99, stocked: true, name: 'Baseball'},
-  {category: 'Sporting Goods', price: 29.99, stocked: false, name: 'Basketball'},
-  {category: 'Electronics', price: 99.99, stocked: true, name: 'iPod Touch'},
-  {category: 'Electronics', price: 399.99, stocked: false, name: 'iPhone 5'},
-  {category: 'Electronics', price: 199.99, stocked: true, name: 'Nexus 7'}
-]
+/* global fetch */
+
+const SERVER_ROOT = 'https://tir-inventory.firebaseio.com'
 
 class App extends Component {
   constructor (props) {
@@ -22,7 +18,8 @@ class App extends Component {
       filterText: '',
       inStockOnly: false,
       isBuying: {},
-      total: 0
+      total: 0,
+      catalog: []
     }
 
     this.handleFilterTextInput = this.handleFilterTextInput.bind(this)
@@ -58,6 +55,19 @@ class App extends Component {
     })
   }
 
+  componentWillMount () {
+    fetch(`${SERVER_ROOT}/catalog.json`)
+        .then((response) => {
+          return response.json()
+        })
+        .then((json) => {
+          this.setState({catalog: json})
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+  }
+
   render () {
     return (
       <Grid>
@@ -76,7 +86,7 @@ class App extends Component {
             />
 
                 <TableHead
-                  products={PRODUCTS}
+                  products={this.state.catalog}
                   filterText={this.state.filterText}
                   inStockOnly={this.state.inStockOnly}
                   onBuyInput={this.onBuyInput}
@@ -85,7 +95,7 @@ class App extends Component {
 
                 <Well>
                   <TotalCount
-                    products={PRODUCTS}
+                    products={this.state.catalog}
                     total={this.state.total}
               />
                 </Well>
