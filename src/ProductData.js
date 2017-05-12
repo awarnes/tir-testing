@@ -16,16 +16,33 @@ export default class ProductData extends Component {
     let price = this.props.product.price
     this.props.onBuyInput(key, value, price)
   }
+  renderInputForEditing (isEditing, value, name, type) {
+    if (isEditing) {
+      return (
+        <input
+          type='text'
+          defaultValue={value}
+          id={`${name}${type}`}
+                  />
+      )
+    } else {
+      return (
+          value
+      )
+    }
+  }
 
   render () {
-    var name = this.props.product.stocked
-            ? <span style={{color: 'black'}}>
-              {this.props.product.name}
-            </span>
-            : <span style={{color: 'red'}}>
-              {this.props.product.name}
-            </span>
+    let name
+    let stockedColor = this.props.product.stocked ? 'black' : 'red'
 
+    if (this.props.isEditing) {
+      name = this.props.product.name
+    } else {
+      name = <span style={{color: stockedColor}}>
+        {this.props.product.name}
+      </span>
+    }
     let amIBuying = this.props.isBuying[this.props.product.name] || false
     return (
       <tr style={{background: this.props.bgColor}}>
@@ -36,10 +53,10 @@ export default class ProductData extends Component {
             onClick={this.handleOnBuyChange}
           >Buy Me!</Button>
         </td>
-        <td>
-          {name}
+        <td style={{color: stockedColor}}>
+          {this.renderInputForEditing(this.props.isEditing, name, name, 'Name')}
         </td>
-        <td id='productPrice'>{this.props.product.price}</td>
+        <td id='productPrice'>{this.renderInputForEditing(this.props.isEditing, this.props.product.price, name, 'Price')}</td>
       </tr>
     )
   }
@@ -50,5 +67,6 @@ ProductData.propTypes = {
   onBuyInput: PropTypes.func,
   isBuying: PropTypes.object,
   checkboxId: PropTypes.number,
-  bgColor: PropTypes.string
+  bgColor: PropTypes.string,
+  isEditing: PropTypes.bool
 }

@@ -19,7 +19,9 @@ export default class TableHead extends Component {
     let keyIterator = 0
     let checkboxIdIterator = 0
 
-    this.props.products.forEach(function (product) {
+    console.log(this.props.products)
+
+    this.props.products.forEach((product) => {
       if (product.category !== lastCategory) {
         rows.push(<ProductLine category={product.category} key={product.category + keyIterator} />)
         keyIterator++
@@ -41,6 +43,7 @@ export default class TableHead extends Component {
             onBuyInput={onBuyInput}
             isBuying={isBuying}
             checkboxId={checkboxIdIterator}
+            isEditing={this.props.isEditing}
                                 />)
           checkboxIdIterator++
         } else if (inStockOnly && !product.stocked) {
@@ -58,6 +61,7 @@ export default class TableHead extends Component {
             onBuyInput={onBuyInput}
             isBuying={isBuying}
             checkboxId={checkboxIdIterator}
+            isEditing={this.props.isEditing}
                                 />)
           checkboxIdIterator++
         }
@@ -88,5 +92,6 @@ TableHead.propTypes = {
   inStockOnly: PropTypes.bool,
   onBuyInput: PropTypes.func,
   isBuying: PropTypes.object,
-  products: PropTypes.array
+  products: PropTypes.array,
+  isEditing: PropTypes.bool
 }
