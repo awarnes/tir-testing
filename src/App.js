@@ -1,7 +1,6 @@
-
 import React, { Component } from 'react'
 import './App.css'
-import { Grid, Jumbotron, Row, Col, Panel, Well, PageHeader } from 'react-bootstrap'
+import { Grid, Jumbotron, Row, Col, Panel, Well, PageHeader, Button } from 'react-bootstrap'
 
 import SearchBar from './SearchBar'
 import TableHead from './TableHead'
@@ -19,12 +18,17 @@ class App extends Component {
       inStockOnly: false,
       isBuying: {},
       total: 0,
-      catalog: []
+      catalog: [],
+      isEditing: false
     }
 
     this.handleFilterTextInput = this.handleFilterTextInput.bind(this)
     this.handleInStockInput = this.handleInStockInput.bind(this)
     this.onBuyInput = this.onBuyInput.bind(this)
+    this.onSaveClick = this.onSaveClick.bind(this)
+    this.onEditClick = this.onEditClick.bind(this)
+    this.onCancelClick = this.onCancelClick.bind(this)
+    this.renderEditButtons = this.renderEditButtons.bind(this)
   }
 
   handleFilterTextInput (filterText) {
@@ -55,16 +59,77 @@ class App extends Component {
     })
   }
 
+  renderEditButtons (editing) {
+    if (editing) {
+      return (
+        <div>
+          <Button
+            onClick={this.onSaveClick} />
+          <Button
+            onClick={this.onCancelClick}>
+          Cancel</Button>
+        </div>
+      )
+    } else {
+      return (
+        <Button
+          onClick={this.onEditClick}>
+          Edit
+        </Button>
+      )
+    }
+  }
+
+  onEditClick () {
+    this.setState({isEditing: true})
+  }
+
+  onCancelClick () {
+    this.setState({isEditing: false})
+  }
+
+  onSaveClick () {
+    this.state.catalog.forEach((product, index) => {
+      let name = document.getElementById(`${product.name}Name`)
+      let price = document.getElementById(`${product.name}Price`)
+      if (name.value !== product.name) {
+        let updatedCatalog = Object.assign(this.state.catalog[index], {name: name.value})
+        this.setState({catalog: [updatedCatalog]})
+      }
+
+      if (Number(price.value) !== product.price) {
+        let updatedCatalog = Object.assign(this.state.catalog[index], {price: Number(price.value)})
+        this.setState({catalog: [updatedCatalog]})
+      }
+    })
+
+    let info = {
+      method: 'PUT',
+      body: JSON.stringify(this.state.catalog)}
+
+    fetch(`${SERVER_ROOT}/catalog.json`, info)
+        .then((response) => {
+          return response.json()
+        })
+        .then((catalog) => {
+          this.setState({catalog})
+          this.setState({isEditing: false})
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+  }
+
   componentWillMount () {
     fetch(`${SERVER_ROOT}/catalog.json`)
         .then((response) => {
           return response.json()
         })
-        .then((json) => {
-          this.setState({catalog: json})
+        .then((catalog) => {
+          this.setState({catalog})
         })
-        .catch((err) => {
-          console.log(err)
+        .catch((error) => {
+          console.log(error)
         })
   }
 
@@ -91,6 +156,7 @@ class App extends Component {
                   inStockOnly={this.state.inStockOnly}
                   onBuyInput={this.onBuyInput}
                   isBuying={this.state.isBuying}
+                  isEditing={this.state.isEditing}
           />
 
                 <Well>
@@ -99,6 +165,9 @@ class App extends Component {
                     total={this.state.total}
               />
                 </Well>
+              </Panel>
+              <Panel bsStyle='info'>
+                {this.renderEditButtons(this.state.isEditing)}
               </Panel>
             </Jumbotron>
           </Col>
