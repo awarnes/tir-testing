@@ -64,8 +64,7 @@ class App extends Component {
       return (
         <div>
           <Button
-            onClick={this.onSaveClick}>
-            Save</Button>
+            onClick={this.onSaveClick} />
           <Button
             onClick={this.onCancelClick}>
           Cancel</Button>
