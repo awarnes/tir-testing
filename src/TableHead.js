@@ -19,8 +19,6 @@ export default class TableHead extends Component {
     let keyIterator = 0
     let checkboxIdIterator = 0
 
-    console.log(this.props.products)
-
     this.props.products.forEach((product) => {
       if (product.category !== lastCategory) {
         rows.push(<ProductLine category={product.category} key={product.category + keyIterator} />)
